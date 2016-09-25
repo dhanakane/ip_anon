@@ -6,7 +6,7 @@ def list_iter(a_list):
     Checks if items in list can be split into 4 . separated octets and if mask is /24 or 0.0.0.0 and yields the item.
     Expand this using binary conversion to evaluate for IP MASK pairings.
     '''
-   for item in a_list:
+    for item in a_list:
        if (len(item.split('.')) == 4) and '255.255.255.0' not in item and '0.0.0.0' not in item:
            yield item
 
