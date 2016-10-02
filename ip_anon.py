@@ -33,27 +33,22 @@ class IPAnon:
         List host addresses e.g: tcp host 1.1.1.1
         '''
         config_hosts = []
-        config_networks = []
+        config_interfaces = []
         #print self.possible_ips
+        
         for i, address  in enumerate(self.possible_ips):
             try:
                 try_address = '{}/{}'.format(address, self.possible_ips[i+1])
                 print('tryng: {}'.format(try_address))
                 test_add = ipaddress.IPv4Interface('{}/{}'.format(address, self.possible_ips[i+1]))
-                network = test_add.network
-                hosts = list(network.hosts())
-                if len(hosts) == 1:
-                    config_hosts.append(hosts)
-                elif len(hosts) > 1:
-                    config_networks.append(network)
+                config_interfaces.append(test_add)
                 #networks_and_interfaces.append('')
             except ipaddress.NetmaskValueError:
                 #print('{}/{} is not a network'.format(address, self.possible_ips[i+1]))
                 pass
             except IndexError:
                 print('End of List')
-        print('networks: {}'.format(config_networks))
-        print('hosts: {}'.format(config_hosts))
+        print('networks: {}'.format(config_interfaces))
 
 def main():
     #testwords = ['1.10.100.101', 'ladybirds', 'hello.word']
