@@ -41,15 +41,23 @@ class IPAnon:
                 try_address = '{}/{}'.format(address, self.possible_ips[i+1])
                 print('tryng: {}'.format(try_address))
                 test_add = ipaddress.IPv4Interface('{}/{}'.format(address, self.possible_ips[i+1]))
-                config_interfaces.append((address, test_add))
+                config_interfaces.append(test_add)
                 #networks_and_interfaces.append('')
             except ipaddress.NetmaskValueError:
-                curr_address = (ipaddress.IPv4Address(address).packed)
-                print curr_address
-                print('address: {} bytearray: {}'.format(address, (ipaddress.IPv4Address(address).exploded)))
+                curr_address = ipaddress.IPv4Address(address).packed
+                flatbits = ''
+                for b in curr_address:
+                    bits = format(int(b), '08b')
+                    flatbits = '{}{}'.format(flatbits, str(bits))
+                match = re.match('(1+)?(0+)?$', flatbits)
+                if match:
+                    print ('Evaluating: {}'.format(flatbits))
+                else:
+                    print('Evaluating: {}'.format(address))
+                    config_hosts.append(address)
             except IndexError:
                 print('End of List')
-        print('Host addresses and interfaces: {}'.format(config_interfaces))
+        print('interface objects: {}'.format(config_interfaces))
         print('addresses: {}'.format(config_hosts))
 
 def main():
