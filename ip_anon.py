@@ -59,6 +59,8 @@ class IPAnon:
                 print('End of List')
         print('interface objects: {}'.format(config_interfaces))
         print('addresses: {}'.format(config_hosts))
+        self.config_hosts = config_hosts
+        self.config_interfaces = config_interfaces
 
 def main():
     #testwords = ['1.10.100.101', 'ladybirds', 'hello.word']
