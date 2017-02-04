@@ -1,5 +1,5 @@
 import re
-import ipaddress
+#import ipaddress
 from netaddr import *
 import pprint
 
@@ -36,9 +36,28 @@ class IPAnon:
         self.ip_config_line = ip_config_line
         self.linenum_ips = linenum_ips
 
-    def ip_address_list(self):
-        return
+    #Method to convert string to IPv4Address object
+    def convert_to_address_obj(self, ip_string):
+        self.ip_string = ip_string
+        ip = IPAddress(self.ip_string)
+        self.ip = ip
+        return self.ip
 
+    def bit_check(self, check_bits):
+        self.check_bits = check_bits
+        bits = self.convert_to_address_obj(self.check_bits).bin
+        self.bits = bits
+        return self.bits
+
+    #Method to search through config line and classify if there is an IPv4Address object in the line.
+    #E.g: classify_ips((1, ['1.1.1.0', '255.255.255.0'])) gives one IPv4 subnet object and one address object
+    def classify_ips(self):
+        for num, elem in self.linenum_ips:
+            for ip in elem:
+                #if IPAddress(ip).is_netmask()
+                c_ip = self.convert_to_address_obj(ip)
+                print c_ip.is_netmask()
+                    #print elem
 
 def main():
     #testwords = ['1.10.100.101', 'ladybirds', 'hello.word']
@@ -57,10 +76,11 @@ def main():
     #print test_anon_class.config_lines
     test_anon_class.ip_guess()
     #print test_anon_class.possible_ips
-    test_anon_class.ip_address_list()
     print test_anon_class.ip_config_line
     print 80 * '#'
     print test_anon_class.linenum_ips
+    print 80 * '#'
+    test_anon_class.classify_ips()
 
 if __name__ == '__main__':
     main()
